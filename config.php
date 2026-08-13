@@ -3,9 +3,22 @@
 $db_type = getenv("DB_TYPE") ? getenv("DB_TYPE") : "mysql";
 $host = getenv("DB_HOST") ? getenv("DB_HOST") : "localhost";
 $user = getenv("DB_USER") ? getenv("DB_USER") : "root";
-$pass = getenv("DB_PASS") ? getenv("DB_PASS") : "";
+$pass = getenv("DB_PASS");
+if (!$pass) { $pass = getenv("DB_PASSWORD"); }
+if (!$pass) { $pass = ""; }
 $db   = getenv("DB_NAME") ? getenv("DB_NAME") : "csdistsys";
 $port = getenv("DB_PORT") ? getenv("DB_PORT") : ($db_type == "pgsql" ? "5432" : "3306");
+
+// if a full database url is given (like on render), use that instead
+if (getenv("DATABASE_URL")) {
+    $url_parts = parse_url(getenv("DATABASE_URL"));
+    $db_type = ($url_parts["scheme"] == "postgresql" || $url_parts["scheme"] == "postgres") ? "pgsql" : "mysql";
+    $host = $url_parts["host"];
+    $port = $url_parts["port"];
+    $user = $url_parts["user"];
+    $pass = $url_parts["pass"];
+    $db   = ltrim($url_parts["path"], "/");
+}
 
 // connect to the database
 try {
