@@ -6,8 +6,8 @@ $id = $_GET['id'];
 
 // fetch the record with that id
 $sql = "SELECT * FROM users WHERE id=$id";
-$result = mysqli_query($conn, $sql);
-$row = mysqli_fetch_assoc($result);
+$result = $conn->query($sql);
+$row = $result->fetch(PDO::FETCH_ASSOC);
 
 // update the record when the update button is clicked
 if (isset($_POST['update'])) {
@@ -19,11 +19,11 @@ if (isset($_POST['update'])) {
 
     $sql = "UPDATE users SET fname='$fname', lname='$lname', contactno='$contactno', email='$email', address='$address' WHERE id=$id";
 
-    if (mysqli_query($conn, $sql)) {
+    if ($conn->query($sql)) {
         echo "<script>alert('Record updated successfully!');</script>";
         echo "<script>window.location.href='index.php';</script>";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: " . $sql . "<br>" . $conn->errorInfo()[2];
     }
 }
 ?>

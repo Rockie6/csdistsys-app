@@ -3,7 +3,7 @@ include 'config.php';
 
 // fetch all records from the database
 $sql = "SELECT * FROM users ORDER BY id DESC";
-$result = mysqli_query($conn, $sql);
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -103,7 +103,7 @@ table.table td a.delete {
                 </tr>
             </thead>
             <tbody>
-                <?php $n = 1; while ($row = mysqli_fetch_assoc($result)): ?>
+                <?php $n = 1; while ($row = $result->fetch(PDO::FETCH_ASSOC)): ?>
                     <tr>
                         <td><?php echo $n++; ?></td>
                         <td><?php echo $row['fname']; ?></td>

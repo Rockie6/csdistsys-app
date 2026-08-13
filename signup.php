@@ -13,10 +13,10 @@ if (isset($_POST['submit'])) {
     $sql = "INSERT INTO users (fname, lname, contactno, email, address)
             VALUES ('$fname', '$lname', '$contactno', '$email', '$address')";
 
-    if (mysqli_query($conn, $sql)) {
+    if ($conn->query($sql)) {
         echo "<script>alert('Data inserted successfully!');</script>";
     } else {
-        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        echo "Error: " . $sql . "<br>" . $conn->errorInfo()[2];
     }
 }
 ?>

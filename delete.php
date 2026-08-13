@@ -7,9 +7,9 @@ $id = $_GET['id'];
 // delete the record
 $sql = "DELETE FROM users WHERE id=$id";
 
-if (mysqli_query($conn, $sql)) {
+if ($conn->query($sql)) {
     header("Location: index.php");
 } else {
-    echo "Error deleting record: " . mysqli_error($conn);
+    echo "Error deleting record: " . $conn->errorInfo()[2];
 }
 ?>
